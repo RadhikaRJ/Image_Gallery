@@ -6,11 +6,11 @@ import { Context } from "./context";
 //import app from "./lib/firebase.config";
 import Firestore from "./handlers/firestore";
 
-const { readDocs } = Firestore;
+// const { readDocs } = Firestore;
 
 function App() {
   //Array.apply(null, { length: 9 })
-  const { state } = useContext(Context);
+  const { state, read } = useContext(Context);
 
   const count = useMemo(() => {
     return `You have ${state.items.length} image${
@@ -23,7 +23,7 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    readDocs().then(console.log);
+    read();
   }, []);
   return (
     <Layout>

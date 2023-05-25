@@ -33,9 +33,7 @@ function reducer(state, action) {
     case "setItems":
       return {
         ...state,
-        items: [state.inputs, ...state.items],
-        count: state.items.length + 1,
-        inputs: { title: null, file: null, path: null },
+        items: action.payload.items,
       };
     case "setInputs":
       return {
@@ -53,8 +51,14 @@ function reducer(state, action) {
 }
 const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const read = async () => {
+    const items = await readDocs("stocks");
+    dispatch({ type: "setItems", payload: { items } });
+  };
   return (
-    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
+    <Context.Provider value={{ state, dispatch, read }}>
+      {children}
+    </Context.Provider>
   );
 };
 
