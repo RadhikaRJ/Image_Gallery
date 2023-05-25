@@ -1,8 +1,12 @@
 import "./App.css";
 import Card from "./components/Card";
 import Layout from "./components/Layout";
-import { useMemo, useContext } from "react";
+import { useMemo, useContext, useEffect } from "react";
 import { Context } from "./context";
+//import app from "./lib/firebase.config";
+import Firestore from "./handlers/firestore";
+
+const { readDocs } = Firestore;
 
 function App() {
   //Array.apply(null, { length: 9 })
@@ -14,6 +18,13 @@ function App() {
     }`;
   }, [state.items]);
 
+  // useEffect(() => {
+  //   app();
+  // }, []);
+
+  useEffect(() => {
+    readDocs().then(console.log);
+  }, []);
   return (
     <Layout>
       <h1 className="text-center">Gallery</h1>
