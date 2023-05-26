@@ -1,4 +1,4 @@
-function Card({ path, title }) {
+function Card({ path, title, createdAt }) {
   return (
     <div className="col mb-5">
       <div className="card" style={{ width: "18rem" }}>

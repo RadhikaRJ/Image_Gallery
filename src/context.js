@@ -6,6 +6,7 @@ const { readDocs } = Firestore;
 export const Context = createContext();
 
 const photos = [];
+
 const initialState = {
   items: photos,
   count: photos.length,
@@ -30,6 +31,13 @@ const handleOnChange = (state, e) => {
 
 function reducer(state, action) {
   switch (action.type) {
+    case "setItem":
+      return {
+        ...state,
+        items: [state.inputs, ...state.items],
+        count: state.items.length + 1,
+        inputs: { title: null, file: null, path: null },
+      };
     case "setItems":
       return {
         ...state,

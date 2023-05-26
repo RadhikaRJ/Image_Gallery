@@ -3,7 +3,7 @@ import { Context } from "../context";
 import Firestore from "../handlers/firestore";
 import Storage from "../handlers/storage";
 
-const { uploadFile } = Storage;
+const { uploadFile, downloadFile } = Storage;
 const { writeDoc } = Firestore;
 
 const Preview = () => {
@@ -33,12 +33,14 @@ const UploadForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    uploadFile(state.inputs).then((media) => {
-      debugger;
-      writeDoc(state.inputs, "stocks").then(console.log());
-      dispatch({ type: "setItems" });
-      dispatch({ type: "collapse", payload: { bool: false } });
-    });
+    uploadFile(state.inputs)
+      .then(downloadFile)
+      .then((url) => {
+        writeDoc({ ...state.inputs, path: url }, "stocks").then(() => {
+          dispatch({ type: "setItem" });
+          dispatch({ type: "collapse", payload: { bool: false } });
+        });
+      });
   };
 
   const isDisabled = useMemo(() => {
