@@ -5,12 +5,13 @@ import { useMemo, useContext, useEffect } from "react";
 import { Context } from "./context/FirestoreContext";
 //import app from "./lib/firebase.config";
 import Firestore from "./handlers/firestore";
-
+import { useAuthContext } from "./context/AuthContext";
 // const { readDocs } = Firestore;
 
 function App() {
   //Array.apply(null, { length: 9 })
   const { state, read } = useContext(Context);
+  const { authenticate } = useAuthContext();
 
   const count = useMemo(() => {
     return `You have ${state.items.length} image${
@@ -24,6 +25,7 @@ function App() {
 
   useEffect(() => {
     read();
+    authenticate();
   }, []);
   return (
     <Layout>

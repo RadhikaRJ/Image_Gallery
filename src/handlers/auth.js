@@ -25,6 +25,11 @@ const FirebaseAuth = {
         .catch(console.error);
     });
   },
+  getCurrentUser: () => {
+    return new Promise((resolve) => {
+      return auth.onAuthStateChanged(resolve);
+    });
+  },
 };
 
 export default FirebaseAuth;

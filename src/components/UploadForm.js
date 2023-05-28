@@ -2,12 +2,14 @@ import { useMemo, useContext } from "react";
 import { Context } from "../context/FirestoreContext";
 import Firestore from "../handlers/firestore";
 import Storage from "../handlers/storage";
+import { useAuthContext } from "../context/AuthContext";
 
 const { uploadFile, downloadFile } = Storage;
 const { writeDoc } = Firestore;
 
 const Preview = () => {
   const { state } = useContext(Context);
+  const { currentUser } = useAuthContext();
   const { inputs } = state;
 
   return (
@@ -26,8 +28,9 @@ const Preview = () => {
 };
 
 const UploadForm = () => {
-  const { dispatch, state } = useContext(Context);
-
+  const { dispatch, state, read } = useContext(Context);
+  const { currentUser } = useAuthContext();
+  const username = currentUser?.displayName.split(" ").join("");
   const handleOnChange = (e) =>
     dispatch({ type: "setInputs", payload: { value: e } });
 
@@ -36,8 +39,11 @@ const UploadForm = () => {
     uploadFile(state.inputs)
       .then(downloadFile)
       .then((url) => {
-        writeDoc({ ...state.inputs, path: url }, "stocks").then(() => {
-          dispatch({ type: "setItem" });
+        writeDoc(
+          { ...state.inputs, path: url, user: username.toLowerCase() },
+          "stocks"
+        ).then(() => {
+          read();
           dispatch({ type: "collapse", payload: { bool: false } });
         });
       });
