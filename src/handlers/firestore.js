@@ -10,7 +10,6 @@ import { db } from "../lib/firebase.config";
 
 const Firestore = {
   readDocs: (...args) => {
-    const [collection_name] = args;
     let docs = [];
     const ref = collection(db, "stocks");
     return new Promise(async (resolve) => {
@@ -27,7 +26,7 @@ const Firestore = {
     });
   },
   writeDoc: (...args) => {
-    const [inputs, collection_name] = args;
+    const [inputs] = args;
 
     return new Promise(async (resolve) => {
       const randomIndex = Math.floor(Math.random() * 1000000000);
@@ -40,7 +39,9 @@ const Firestore = {
           createdAt: serverTimestamp(),
         });
         resolve(`new doc successfully inserted`);
-      } catch (e) {}
+      } catch (e) {
+        console.error();
+      }
     });
   },
 };

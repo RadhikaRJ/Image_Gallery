@@ -2,7 +2,7 @@ import "./App.css";
 import Card from "./components/Card";
 import Layout from "./components/Layout";
 import { useMemo, useContext, useEffect } from "react";
-import { Context } from "./context";
+import { Context } from "./context/FirestoreContext";
 //import app from "./lib/firebase.config";
 import Firestore from "./handlers/firestore";
 
