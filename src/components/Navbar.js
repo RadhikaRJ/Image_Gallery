@@ -1,5 +1,7 @@
 import { useAuthContext } from "../context/AuthContext";
 import { useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
+
 const LogIn = () => {
   const { login, currentUser } = useAuthContext();
   return (
@@ -23,14 +25,45 @@ const LogOut = () => {
 };
 
 function Navigation() {
+  const { currentUser } = useAuthContext();
+  const { pathName } = useLocation();
+
   return (
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
       {/* remove all links except HOME */}
       <li className="nav-item">
-        <a className="nav-link active" aria-current="page" href="#">
+        <Link
+          className={`nav-link ${pathName === "/" ? "active" : ""}`}
+          aria-current="page"
+          to="/"
+        >
           Home
-        </a>
+        </Link>
       </li>
+      {currentUser && (
+        <li className="nav-item">
+          <Link
+            className={`nav-link ${
+              pathName === "/mystockimages" ? "active" : ""
+            }`}
+            aria-current="page"
+            to="/mystockimages"
+          >
+            My Stock Images
+          </Link>
+        </li>
+      )}
+      {currentUser && (
+        <li className="nav-item">
+          <Link
+            className={`nav-link ${pathName === "/profile" ? "active" : ""}`}
+            aria-current="page"
+            to="/profile"
+          >
+            Profile
+          </Link>
+        </li>
+      )}
     </ul>
   );
 }
@@ -90,7 +123,8 @@ function Dropdown() {
         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
           <li>
             <a className="dropdown-item text-center" href="#">
-              {username}
+              {currentUser && <Link to="/profile">{username}</Link>}
+              {}
             </a>
             <li>
               <hr className="dropdown divider" />

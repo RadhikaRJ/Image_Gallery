@@ -1,12 +1,8 @@
 import "./App.css";
-import Card from "./components/Card";
-import Layout from "./components/Layout";
 import { useMemo, useContext, useEffect } from "react";
 import { Context } from "./context/FirestoreContext";
-//import app from "./lib/firebase.config";
-import Firestore from "./handlers/firestore";
 import { useAuthContext } from "./context/AuthContext";
-// const { readDocs } = Firestore;
+import List from "./components/List";
 
 function App() {
   //Array.apply(null, { length: 9 })
@@ -28,15 +24,11 @@ function App() {
     authenticate();
   }, []);
   return (
-    <Layout>
+    <>
       <h1 className="text-center">Gallery</h1>
       {count}
-      <div className="row">
-        {state.items.map((item, index) => (
-          <Card key={index} {...item} />
-        ))}
-      </div>
-    </Layout>
+      <List items={state.items} />
+    </>
   );
 }
 
